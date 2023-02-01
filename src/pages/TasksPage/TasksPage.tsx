@@ -1,12 +1,12 @@
+import { Link } from 'react-router-dom'
 import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
 
-export default function HomePage() {
+export default function TasksPage (): JSX.Element {
   return (
     <div className="container pb-5 mb-5">
         <div>
             <h1 className="display-4 text-primary mx-auto d-flex justify-content-center col-md-7">Tasks</h1>
-            <br></br>
+            <br />
             <h3 className="display-4 text-primary mx-auto d-flex justify-content-center col-md-7">Open Roles</h3>
             <Table align="center" striped>
                 <thead>
@@ -34,14 +34,14 @@ export default function HomePage() {
                     </tr>
                 </tbody>
             </Table>
-            <br></br>
-            <p className="mx-auto d-flex h5 col-md-9 text-center text-secondary" style={{lineHeight: "2em"}}>
+            <br />
+            <p className="mx-auto d-flex h5 col-md-9 text-center text-secondary" style={{ lineHeight: '2em' }}>
                 Welcome to the tech incubator!
             </p>
-            <br></br>
-            <Button variant="link">HOME</Button>
-            <Button variant="link">TASKS</Button>
-            <Button variant="link">PROFILE</Button>
+            <br />
+            <Link to="/" className="btn btn-link">Home</Link>{' '}
+            <Link to="/tasks" className="btn btn-link">Tasks</Link>{' '}
+            <Link to="/profile" className="btn btn-link">Profile</Link>
         </div>
     </div>
   )

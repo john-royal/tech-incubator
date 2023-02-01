@@ -1,14 +1,27 @@
-import { BrowserRouter as Router } from 'react-router-dom'
-import MainCompenent from './MainComponent'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
+import HomePage from './pages/HomePage/HomePage'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
+import TasksPage from './pages/TasksPage/TasksPage'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />
+  },
+  {
+    path: '/tasks',
+    element: <TasksPage />
+  },
+  {
+    path: '/profile',
+    element: <ProfilePage />
+  }
+])
 
 function App (): JSX.Element {
   return (
-    <div className="App">
-      <Router>
-        <MainCompenent />
-      </Router>
-    </div>
+    <RouterProvider router={router} />
   )
 }
 
