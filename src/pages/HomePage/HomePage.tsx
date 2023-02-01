@@ -1,5 +1,4 @@
 import { Card } from 'react-bootstrap'
-import Placeholder from 'react-bootstrap/Placeholder'
 import Button from 'react-bootstrap/Button'
 
 export default function HomePage() {
