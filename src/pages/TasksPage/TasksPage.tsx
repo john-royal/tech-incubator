@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import Table from 'react-bootstrap/Table'
 
 export default function TasksPage (): JSX.Element {
@@ -39,9 +39,6 @@ export default function TasksPage (): JSX.Element {
                 Welcome to the tech incubator!
             </p>
             <br />
-            <Link to="/" className="btn btn-link">Home</Link>{' '}
-            <Link to="/tasks" className="btn btn-link">Tasks</Link>{' '}
-            <Link to="/profile" className="btn btn-link">Profile</Link>
         </div>
     </div>
   )
