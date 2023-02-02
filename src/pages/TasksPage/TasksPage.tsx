@@ -1,4 +1,3 @@
-// import { Link } from 'react-router-dom'
 import Table from 'react-bootstrap/Table'
 
 export default function TasksPage (): JSX.Element {

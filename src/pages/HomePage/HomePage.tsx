@@ -1,6 +1,4 @@
 import Card from 'react-bootstrap/Card'
-// import { Link } from 'react-router-dom'
-// import useAuth from '../../lib/useAuth'
 
 export default function HomePage (): JSX.Element {
   return (
