@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix --ext .ts,.tsx,.js,.jsx,.cjs"
   },
   "dependencies": {
     "firebase": "^9.16.0",
