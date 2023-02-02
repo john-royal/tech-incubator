@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 export default function ProfilePage (): JSX.Element {
   return (
@@ -19,9 +19,6 @@ export default function ProfilePage (): JSX.Element {
             <br />
 
             <br />
-            <Link to="/" className="btn btn-link">Home</Link>{' '}
-            <Link to="/tasks" className="btn btn-link">Tasks</Link>{' '}
-            <Link to="/profile" className="btn btn-link">Profile</Link>
         </div>
     </div>
   )
