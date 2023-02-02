@@ -1,10 +1,17 @@
-import { getAuth, type User } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, type User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import app from './firebase'
 
+interface Auth {
+  user: User | null
+  signIn: (email: string, password: string) => Promise<void>
+  createAccount: (email: string, password: string) => Promise<void>
+  signOut: () => Promise<void>
+}
+
 const auth = getAuth(app)
 
-export default function useAuth (): { user: User | null, signOut: () => Promise<void> } {
+export default function useAuth (): Auth {
   const [user, setUser] = useState<User | null>(auth.currentUser)
 
   useEffect(() => {
@@ -13,6 +20,14 @@ export default function useAuth (): { user: User | null, signOut: () => Promise<
 
   return {
     user,
-    signOut: async () => { await auth.signOut() }
+    async signIn (email, password) {
+      await signInWithEmailAndPassword(auth, email, password)
+    },
+    async createAccount (email, password) {
+      await createUserWithEmailAndPassword(auth, email, password)
+    },
+    async signOut () {
+      await auth.signOut()
+    }
   }
 }
