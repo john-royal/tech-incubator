@@ -6,7 +6,9 @@ export default function NavBar (): JSX.Element {
 
   return (
     <nav className="flex justify-between items-center">
-      <div><Link to="/">Logo</Link></div>
+      <div className="pl-2">
+        <Link to="/">Logo</Link>
+      </div>
 
       <ul className="flex">
         <li className="p-2">
@@ -18,14 +20,20 @@ export default function NavBar (): JSX.Element {
         <li className="p-2">
           <Link to="/profile" className="btn btn-link">Profile</Link>
         </li>
-        <li className="p-2">
-          {(user == null)
-            ? <>
+        {(user == null) ? 
+          <>
+            <li className="p-2">
               <Link to="/sign-in" className="btn btn-link">Sign In</Link>
+            </li>
+            <li className="p-2">
               <Link to="/create-account" className="btn btn-link">Create Account</Link>
-              </>
-            : <button onClick={() => { void signOut() }}>Sign Out</button>}
-        </li>
+            </li>
+          </>
+          : 
+          <li className="p-2">
+            <button onClick={() => { void signOut() }}>Sign Out</button>
+          </li>
+        }  
       </ul>
     </nav>
   )
