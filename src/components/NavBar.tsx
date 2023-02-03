@@ -1,16 +1,8 @@
-import { getAuth } from 'firebase/auth'
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import app from '../lib/firebase'
-
-const auth = getAuth(app)
+import { signOut, useUser } from '../lib/user'
 
 export default function NavBar (): JSX.Element {
-  const [user, setUser] = useState(auth.currentUser)
-
-  useEffect(() => {
-    auth.onAuthStateChanged(user => { setUser(user) })
-  })
+  const { status } = useUser()
 
   const navLinks = [
     { to: '/', title: 'Home' },
@@ -30,7 +22,7 @@ export default function NavBar (): JSX.Element {
             <Link to={navLink.to} className="btn btn-link">{navLink.title}</Link>
           </li>
         ))}
-        {(user == null)
+        {status === 'unauthenticated'
           ? <>
             <li className="p-2 text-slate-300 hover:text-slate-50">
               <Link to="/sign-in" className="btn btn-link">Sign In</Link>
@@ -40,7 +32,7 @@ export default function NavBar (): JSX.Element {
             </li>
           </>
           : <li className="p-2 text-slate-300 hover:text-slate-50">
-            <button onClick={() => { void auth.signOut() }}>Sign Out</button>
+            <button onClick={() => { void signOut() }}>Sign Out</button>
           </li>
         }
       </ul>

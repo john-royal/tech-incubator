@@ -1,9 +1,6 @@
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useState, type FormEventHandler } from 'react'
 import { useNavigate } from 'react-router-dom'
-import app from '../lib/firebase'
-
-const auth = getAuth(app)
+import { signIn } from '../lib/user'
 
 export default function CreateAccountPage (): JSX.Element {
   const [email, setEmail] = useState('')
@@ -14,7 +11,7 @@ export default function CreateAccountPage (): JSX.Element {
   const handleSubmit: FormEventHandler = e => {
     e.preventDefault()
 
-    signInWithEmailAndPassword(auth, email, password)
+    signIn(email, password)
       .then(() => { navigate('/profile') })
       .catch(error => {
         console.error('An error occurred while signing in: ', error)
