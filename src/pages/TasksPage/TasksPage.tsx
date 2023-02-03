@@ -1,6 +1,16 @@
+import { doc, getDoc } from 'firebase/firestore'
 import Table from 'react-bootstrap/Table'
+import { db } from '../../lib/firebase'
+import { useLoaderData } from 'react-router-dom'
 
 export default function TasksPage (): JSX.Element {
+  interface Task {
+    Assigned_To: string
+    Created_By: string
+    Description: string
+    Subject: string
+  }
+  const task = useLoaderData() as Task
   return (
     <div className="container pb-5 mb-5">
         <div>
@@ -11,25 +21,15 @@ export default function TasksPage (): JSX.Element {
                 <thead>
                     <tr>
                     <th>#</th>
-                    <th>Company</th>
+                    <th>Subject</th>
                     <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                     <td>1</td>
-                    <td>Tech</td>
-                    <td>ez</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Finance</td>
-                    <td>medium</td>
-                    </tr>
-                    <tr>
-                    <td>3</td>
-                    <td>Admin</td>
-                    <td>hard</td>
+                    <td>{task.Subject}</td>
+                    <td>{task.Description}</td>
                     </tr>
                 </tbody>
             </Table>
@@ -41,4 +41,9 @@ export default function TasksPage (): JSX.Element {
         </div>
     </div>
   )
+}
+
+export async function loadTasks (): Promise<DocumentData> {
+  const tasks = await getDoc(doc(db, 'tasks/task1'))
+  return tasks.data()
 }
