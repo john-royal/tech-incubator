@@ -1,7 +1,7 @@
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { doc, getFirestore, onSnapshot } from 'firebase/firestore'
-import { type SetStateAction, useEffect, useState } from 'react'
-import app from './firebase'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { useEffect, useState, type SetStateAction } from 'react'
+import { auth, db } from './firebase'
 import { type EmployerUser, type StudentUser, type User } from './types'
 
 interface UnauthenticatedUserState {
@@ -20,9 +20,6 @@ interface AuthenticatedUserState {
 }
 
 type UserState = UnauthenticatedUserState | OnboardingUserState | AuthenticatedUserState
-
-const auth = getAuth(app)
-const db = getFirestore(app)
 
 export function useUser (): UserState {
   const [user, setUser] = useCachedState('user', auth.currentUser)
