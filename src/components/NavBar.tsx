@@ -1,8 +1,16 @@
+import { getAuth } from 'firebase/auth'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import useAuth from '../lib/useAuth'
+import app from '../lib/firebase'
+
+const auth = getAuth(app)
 
 export default function NavBar (): JSX.Element {
-  const { user, signOut } = useAuth()
+  const [user, setUser] = useState(auth.currentUser)
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => { setUser(user) })
+  })
 
   const navLinks = [
     { to: '/', title: 'Home' },
@@ -32,7 +40,7 @@ export default function NavBar (): JSX.Element {
             </li>
           </>
           : <li className="p-2 text-slate-300 hover:text-slate-50">
-            <button onClick={() => { void signOut() }}>Sign Out</button>
+            <button onClick={() => { void auth.signOut() }}>Sign Out</button>
           </li>
         }
       </ul>
