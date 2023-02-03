@@ -1,4 +1,4 @@
-import { doc, getDoc } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import Table from 'react-bootstrap/Table'
 import { db } from '../../lib/firebase'
 import { useLoaderData } from 'react-router-dom'
@@ -6,11 +6,16 @@ import { useLoaderData } from 'react-router-dom'
 export default function TasksPage (): JSX.Element {
   interface Task {
     Assigned_To: string
-    Created_By: string
+    Company: string
     Description: string
     Subject: string
   }
-  const task = useLoaderData() as Task
+  const tasks = useLoaderData() as Task[]
+  let count = 0
+  function plusCount (): number {
+    count += 1
+    return count
+  }
   return (
     <div className="container pb-5 mb-5">
         <div>
@@ -21,21 +26,27 @@ export default function TasksPage (): JSX.Element {
                 <thead>
                     <tr>
                     <th>#</th>
+                    <th>Company</th>
                     <th>Subject</th>
                     <th>Description</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>{task.Subject}</td>
-                    <td>{task.Description}</td>
-                    </tr>
-                </tbody>
+                {tasks.map((task) => (
+                    <tbody key={count}>
+                        <tr>
+                        <td>{plusCount()}</td>
+                        <td>{task.Company}</td>
+                        <td>{task.Subject}</td>
+                        <td>{task.Description}</td>
+                        </tr>
+                    </tbody>
+                ))
+                }
             </Table>
             <br />
             <p className="mx-auto d-flex h5 col-md-9 text-center text-secondary" style={{ lineHeight: '2em' }}>
-                Welcome to the tech incubator!
+                Companies are seeking to fill tasks! If you are a student that can meet a given tasks
+                responsibilites, we encourage you to apply!
             </p>
             <br />
         </div>
@@ -44,6 +55,6 @@ export default function TasksPage (): JSX.Element {
 }
 
 export async function loadTasks (): Promise<DocumentData> {
-  const tasks = await getDoc(doc(db, 'tasks/task1'))
-  return tasks.data()
+  const tasks = await getDocs(collection(db, 'tasks'))
+  return tasks.docs.map((task) => task.data())
 }
