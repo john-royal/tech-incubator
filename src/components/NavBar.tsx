@@ -4,28 +4,38 @@ import useAuth from '../lib/useAuth'
 export default function NavBar (): JSX.Element {
   const { user, signOut } = useAuth()
 
+  const navLinks = [
+    { to: "/", title: "Home"},
+    { to: "/tasks", title: "Tasks"},
+    { to: "/profile", title: "Profile"},
+  ]
+
   return (
-    <nav className="flex justify-between items-center">
-      <div><Link to="/">Logo</Link></div>
+    <nav className="flex justify-between items-center bg-blue-900">
+      <div className="pl-2 text-slate-300 hover:text-slate-50">
+        <Link to="/">Logo</Link>
+      </div>
 
       <ul className="flex">
-        <li className="p-2">
-          <Link to="/" className="btn btn-link">Home</Link>
-        </li>
-        <li className="p-2">
-          <Link to="/tasks" className="btn btn-link">Tasks</Link>
-        </li>
-        <li className="p-2">
-          <Link to="/profile" className="btn btn-link">Profile</Link>
-        </li>
-        <li className="p-2">
-          {(user == null)
-            ? <>
+        {navLinks.map((navLink, id) => (
+          <li key={id} className="p-2 text-slate-300 hover:text-slate-100 transition ease-in-out delay-50 duration-200">
+            <Link to={navLink.to} className="btn btn-link">{navLink.title}</Link>
+          </li>
+        ))}
+        {(user == null) ? 
+          <>
+            <li className="p-2 text-slate-300 hover:text-slate-50">
               <Link to="/sign-in" className="btn btn-link">Sign In</Link>
+            </li>
+            <li className="p-2 text-slate-300 hover:text-slate-50">
               <Link to="/create-account" className="btn btn-link">Create Account</Link>
-              </>
-            : <button onClick={() => { void signOut() }}>Sign Out</button>}
-        </li>
+            </li>
+          </>
+          : 
+          <li className="p-2 text-slate-300 hover:text-slate-50">
+            <button onClick={() => { void signOut() }}>Sign Out</button>
+          </li>
+        }  
       </ul>
     </nav>
   )
