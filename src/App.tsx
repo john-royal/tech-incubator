@@ -1,5 +1,4 @@
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
-import './App.css'
 import CreateAccountPage from './pages/CreateAccount'
 import HomePage from './pages/HomePage/HomePage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
