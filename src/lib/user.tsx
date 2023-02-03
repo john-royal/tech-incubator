@@ -1,27 +1,15 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
-import { useEffect, useState, type SetStateAction } from 'react'
+import { createContext, useContext, useEffect, useState, type PropsWithChildren, type SetStateAction } from 'react'
 import { auth, db } from './firebase'
-import { type EmployerUser, type StudentUser, type User } from './types'
+import { type EmployerUser, type StudentUser, type UserState } from './types'
 
-interface UnauthenticatedUserState {
-  user: null
-  status: 'unauthenticated'
-}
-
-interface OnboardingUserState {
-  user: User
-  status: 'onboarding'
-}
-
-interface AuthenticatedUserState {
-  user: EmployerUser | StudentUser
-  status: 'authenticated'
-}
-
-type UserState = UnauthenticatedUserState | OnboardingUserState | AuthenticatedUserState
+const UserContext = createContext<UserState>({ user: null, status: 'unauthenticated' })
 
 export function useUser (): UserState {
+  return useContext(UserContext)
+}
+
+export function UserProvider ({ children }: PropsWithChildren): JSX.Element {
   const [user, setUser] = useCachedState('user', auth.currentUser)
   const [state, setState] = useCachedState<UserState>('state', { user: null, status: 'unauthenticated' })
 
@@ -51,19 +39,7 @@ export function useUser (): UserState {
     }
   }, [user])
 
-  return state
-}
-
-export async function signIn (email: string, password: string): Promise<void> {
-  await signInWithEmailAndPassword(auth, email, password)
-}
-
-export async function signOut (): Promise<void> {
-  await auth.signOut()
-}
-
-export async function createAccount (email: string, password: string): Promise<void> {
-  await createUserWithEmailAndPassword(auth, email, password)
+  return <UserContext.Provider value={state}>{children}</UserContext.Provider>
 }
 
 function useCachedState<T> (key: string, defaultValue: T): [T, React.Dispatch<SetStateAction<T>>] {

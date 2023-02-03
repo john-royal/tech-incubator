@@ -1,6 +1,7 @@
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { useState, type FormEventHandler } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { createAccount } from '../lib/user'
+import { auth } from '../lib/firebase'
 
 export default function CreateAccountPage (): JSX.Element {
   const [email, setEmail] = useState('')
@@ -11,7 +12,7 @@ export default function CreateAccountPage (): JSX.Element {
   const handleSubmit: FormEventHandler = e => {
     e.preventDefault()
 
-    createAccount(email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then(() => { navigate('/profile') })
       .catch(error => {
         console.error('An error occurred while creating an account: ', error)

@@ -5,6 +5,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage'
 import SignInPage from './pages/SignIn'
 import TasksPage, { loadTasks } from './pages/TasksPage/TasksPage'
 import NavBar from './components/NavBar'
+import { UserProvider } from './lib/user'
 
 const HeaderLayout = (): JSX.Element => (
   <>
@@ -44,7 +45,9 @@ const router = createBrowserRouter([
 
 function App (): JSX.Element {
   return (
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   )
 }
 

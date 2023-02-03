@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { signOut, useUser } from '../lib/user'
+import { auth } from '../lib/firebase'
+import { useUser } from '../lib/user'
 
 export default function NavBar (): JSX.Element {
   const { status } = useUser()
@@ -32,7 +33,7 @@ export default function NavBar (): JSX.Element {
             </li>
           </>
           : <li className="p-2 text-slate-300 hover:text-slate-50">
-            <button onClick={() => { void signOut() }}>Sign Out</button>
+            <button onClick={() => { void auth.signOut() }}>Sign Out</button>
           </li>
         }
       </ul>
