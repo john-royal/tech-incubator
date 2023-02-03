@@ -5,9 +5,9 @@ export default function NavBar (): JSX.Element {
   const { user, signOut } = useAuth()
 
   const navLinks = [
-    { to: "/", title: "Home"},
-    { to: "/tasks", title: "Tasks"},
-    { to: "/profile", title: "Profile"},
+    { to: '/', title: 'Home' },
+    { to: '/tasks', title: 'Tasks' },
+    { to: '/profile', title: 'Profile' }
   ]
 
   return (
@@ -22,8 +22,8 @@ export default function NavBar (): JSX.Element {
             <Link to={navLink.to} className="btn btn-link">{navLink.title}</Link>
           </li>
         ))}
-        {(user == null) ? 
-          <>
+        {(user == null)
+          ? <>
             <li className="p-2 text-slate-300 hover:text-slate-50">
               <Link to="/sign-in" className="btn btn-link">Sign In</Link>
             </li>
@@ -31,11 +31,10 @@ export default function NavBar (): JSX.Element {
               <Link to="/create-account" className="btn btn-link">Create Account</Link>
             </li>
           </>
-          : 
-          <li className="p-2 text-slate-300 hover:text-slate-50">
+          : <li className="p-2 text-slate-300 hover:text-slate-50">
             <button onClick={() => { void signOut() }}>Sign Out</button>
           </li>
-        }  
+        }
       </ul>
     </nav>
   )

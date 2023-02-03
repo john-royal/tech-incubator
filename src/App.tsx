@@ -4,9 +4,8 @@ import CreateAccountPage from './pages/CreateAccount'
 import HomePage from './pages/HomePage/HomePage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
 import SignInPage from './pages/SignIn'
-import TasksPage from './pages/TasksPage/TasksPage'
+import TasksPage, { loadTasks } from './pages/TasksPage/TasksPage'
 import NavBar from './components/NavBar'
-import { loadTasks } from './pages/TasksPage/TasksPage';
 
 const HeaderLayout = (): JSX.Element => (
   <>
