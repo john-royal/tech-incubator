@@ -9,13 +9,9 @@ export default function TasksPage (): JSX.Element {
     Company: string
     Description: string
     Subject: string
+    key: number
   }
   const tasks = useLoaderData() as Task[]
-  let count = 0
-  function plusCount (): number {
-    count += 1
-    return count
-  }
   return (
     <div className="container pb-5 mb-5">
         <div>
@@ -25,16 +21,16 @@ export default function TasksPage (): JSX.Element {
             <Table align="center" striped>
                 <thead>
                     <tr>
-                    <th>#</th>
+                    <th>taskID</th>
                     <th>Company</th>
                     <th>Subject</th>
                     <th>Description</th>
                     </tr>
                 </thead>
                 {tasks.map((task) => (
-                    <tbody key={count}>
+                    <tbody key={task.key}>
                         <tr>
-                        <td>{plusCount()}</td>
+                        <td>{task.key}</td>
                         <td>{task.Company}</td>
                         <td>{task.Subject}</td>
                         <td>{task.Description}</td>
