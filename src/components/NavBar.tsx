@@ -9,7 +9,7 @@ export default function NavBar (): JSX.Element {
     { to: "/tasks", title: "Tasks"},
     { to: "/profile", title: "Profile"},
   ]
-  
+
   return (
     <nav className="flex justify-between items-center bg-blue-900">
       <div className="pl-2 text-slate-300 hover:text-slate-50">
@@ -18,8 +18,8 @@ export default function NavBar (): JSX.Element {
 
       <ul className="flex">
         {navLinks.map((navLink, id) => (
-          <li key={id} className="p-2 text-slate-300 hover:text-slate-50">
-            <Link to="/" className="btn btn-link">Home</Link>
+          <li key={id} className="p-2 text-slate-300 hover:text-slate-100 transition ease-in-out delay-50 duration-200">
+            <Link to={navLink.to} className="btn btn-link">{navLink.title}</Link>
           </li>
         ))}
         {(user == null) ? 
