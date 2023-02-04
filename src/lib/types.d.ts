@@ -32,8 +32,8 @@ export interface Task {
   title: string
   description: string
   imageURL: string
-  employerID: Employer['id']
-  assigneeID: Student['id'] | null
+  employer: Employer
+  assignee: Student | null
   submissionURL: string | null
   dueDate: Date | null
 }
