@@ -2,7 +2,7 @@ import { collection, doc, setDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import React, { useState, type ChangeEvent, type FormEventHandler } from 'react'
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { db, storage } from '../../lib/firebase'
 import { type Task } from '../../lib/types'
 
@@ -12,6 +12,7 @@ export default function EditTaskForm (): JSX.Element {
   const [image, setImage] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const putTask = async (id: string | undefined, title: string, description: string, image: File): Promise<Task> => {
     const taskRef = typeof id === 'string' ? doc(db, 'tasks', id) : doc(collection(db, 'tasks'))
@@ -43,7 +44,7 @@ export default function EditTaskForm (): JSX.Element {
     setLoading(true)
 
     putTask(undefined, title, description, image)
-      .then(task => { redirect(`/task/${task.id}`) })
+      .then(task => { navigate(`/task/${task.id}`) })
       .catch(error => { setError(error.toString()) })
       .finally(() => { setLoading(false) })
   }
