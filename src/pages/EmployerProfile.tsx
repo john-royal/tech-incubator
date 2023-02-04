@@ -1,25 +1,39 @@
-import { doc, getDoc } from 'firebase/firestore'
-import { redirect, useLoaderData, type LoaderFunction } from 'react-router-dom'
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { useLoaderData, type LoaderFunctionArgs } from 'react-router-dom'
+import TasksGrid from '../components/TasksGrid'
 import { db } from '../lib/firebase'
-import { type Employer } from '../lib/types'
+import { type Employer, type Task } from '../lib/types'
+
+interface LoaderData {
+  employer: Employer
+  tasks: Task[]
+}
 
 export default function EmployerProfile (): JSX.Element {
-  const employer = useLoaderData() as Employer
+  const { employer, tasks } = useLoaderData() as LoaderData
 
   return (
     <>
         <img src={employer.imageURL} alt={employer.name} />
         <h1>{employer.name}</h1>
         <p>{employer.description}</p>
+        <TasksGrid tasks={tasks} />
     </>
   )
 }
 
-export const loadEmployer: LoaderFunction = async ({ params }) => {
-  const employer = await getDoc(doc(db, 'employers', params.id as string))
+export const loadEmployer = async ({ params }: LoaderFunctionArgs): Promise<LoaderData> => {
+  const id = params.id as string
+  const [employer, tasks] = await Promise.all([
+    getDoc(doc(db, 'employers', id)),
+    getDocs(query(collection(db, 'tasks'), where('employer.id', '==', id)))
+  ])
   if (employer.exists()) {
-    return employer.data() as Employer
+    return {
+      employer: employer.data() as Employer,
+      tasks: tasks.docs.map(doc => doc.data()) as Task[]
+    }
   } else {
-    return redirect('/404')
+    throw new Error('Employer not found')
   }
 }
