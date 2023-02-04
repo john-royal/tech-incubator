@@ -8,6 +8,7 @@ import SignInPage from './pages/auth/SignIn'
 import EmployerForm from './pages/EmployerForm'
 import EmployerProfile, { loadEmployer } from './pages/EmployerProfile'
 import HomePage from './pages/HomePage'
+import StudentForm from './pages/StudentForm'
 import StudentProfile, { loadStudent } from './pages/StudentProfile'
 import EditTaskForm, { loadEmployer as loadEmployerForTask } from './pages/tasks/EditTaskForm'
 import TasksPage, { loadTasks } from './pages/tasks/TasksPage'
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
         path: '/student/:id',
         element: <StudentProfile />,
         loader: loadStudent
+      },
+      {
+        path: '/student/:id/edit',
+        element: <StudentForm />
       },
       {
         path: '/create-account',
