@@ -1,5 +1,6 @@
 import { createBrowserRouter, Outlet, redirect, RouterProvider } from 'react-router-dom'
 import NavBar from './components/NavBar'
+<<<<<<< HEAD
 import { auth } from './lib/firebase'
 import { UserProvider } from './lib/user'
 import CreateAccountPage from './pages/CreateAccount'
@@ -9,6 +10,9 @@ import { loadProfile } from './pages/ProfilePage'
 import SignInPage from './pages/SignIn'
 import StudentProfile, { loadStudent } from './pages/StudentProfile'
 import TasksPage, { loadTasks } from './pages/TasksPage/TasksPage'
+=======
+import 'bootstrap/dist/css/bootstrap.min.css'
+>>>>>>> origin/cardtsks_newtsks
 
 const HeaderLayout = (): JSX.Element => (
   <>
