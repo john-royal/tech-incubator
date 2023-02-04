@@ -8,7 +8,7 @@ export default function TasksGrid ({ tasks }: { tasks: Task[] }): JSX.Element {
       {tasks.map((task) => (
         <Grid item xs={3} key={task.id}>
           <Card style={{ width: '15rem' }}>
-            <Card.Img variant="top" src="https://fakeimg.pl/100x100/?text=CMPNY LOGO" />
+            <Card.Img variant="top" src={task.imageURL} />
             <Card.Body>
               <Card.Title>{task.title}</Card.Title>
               <Card.Text>{task.description}</Card.Text>
