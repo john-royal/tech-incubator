@@ -6,7 +6,7 @@ import { auth, db } from '../lib/firebase'
 
 
 export default function StudentProfile (): JSX.Element {
-
+  const [name, setName] = useState('')
   const [bio, setBio] = useState('')
   const [imageURL, setImageURL] = useState('')
   const [major, setMajor] = useState('')
@@ -16,6 +16,10 @@ export default function StudentProfile (): JSX.Element {
 
   const handleSubmit: FormEventHandler = e => {
     e.preventDefault()
+
+    const student = {
+      
+    }
 
   }
 
