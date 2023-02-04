@@ -1,37 +1,39 @@
-export interface User {
-  id: string
-  email: string
-}
 
-export interface EmployerUser extends User {
+export interface Employer {
+  id: string
   name: string
   description: string
   imageURL: string
-  type: 'employer'
 }
 
-export interface StudentUser extends User {
+export interface Student {
+  id: string
   name: string
   bio: string
   major: string
   year: number
   imageURL: string
-  type: 'student'
 }
 
-export interface UnauthenticatedUserState {
-  user: null
-  status: 'unauthenticated'
+export type UserType = 'student' | 'employer'
+
+export interface User {
+  id: string
+  email: string
+  type: UserType
 }
 
-export interface OnboardingUserState {
-  user: User
-  status: 'onboarding'
+export interface UserState {
+  user: User | null
 }
 
-export interface AuthenticatedUserState {
-  user: EmployerUser | StudentUser
-  status: 'authenticated'
+export interface Task {
+  id: string
+  title: string
+  description: string
+  imageURL: string
+  employerID: Employer['id']
+  assigneeID: Student['id'] | null
+  submissionURL: string | null
+  dueDate: Date | null
 }
-
-export type UserState = UnauthenticatedUserState | OnboardingUserState | AuthenticatedUserStatee

@@ -1,9 +1,9 @@
 import { doc, onSnapshot } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useState, type PropsWithChildren, type SetStateAction } from 'react'
 import { auth, db } from './firebase'
-import { type EmployerUser, type StudentUser, type UserState } from './types'
+import { type User, type UserState } from './types'
 
-const UserContext = createContext<UserState>({ user: null, status: 'unauthenticated' })
+const UserContext = createContext<UserState>({ user: null })
 
 export function useUser (): UserState {
   return useContext(UserContext)
@@ -11,7 +11,7 @@ export function useUser (): UserState {
 
 export function UserProvider ({ children }: PropsWithChildren): JSX.Element {
   const [user, setUser] = useCachedState('user', auth.currentUser)
-  const [state, setState] = useCachedState<UserState>('state', { user: null, status: 'unauthenticated' })
+  const [state, setState] = useCachedState<UserState>('state', { user: null })
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => { setUser(user) })
@@ -21,21 +21,13 @@ export function UserProvider ({ children }: PropsWithChildren): JSX.Element {
   useEffect(() => {
     if (user != null) {
       const unsubscribe = onSnapshot(doc(db, 'users', user.uid), doc => {
-        if (doc.exists()) {
-          setState({
-            user: doc.data() as EmployerUser | StudentUser,
-            status: 'authenticated'
-          })
-        } else {
-          setState({
-            user: { id: user.uid, email: user.email as string },
-            status: 'onboarding'
-          })
-        }
+        setState({
+          user: doc.data() as User
+        })
       })
       return () => { unsubscribe() }
     } else {
-      setState({ user: null, status: 'unauthenticated' })
+      setState({ user: null })
     }
   }, [user])
 

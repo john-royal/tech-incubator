@@ -1,11 +1,13 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
 import { useState, type FormEventHandler } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { auth } from '../lib/firebase'
+import { auth, db } from '../lib/firebase'
 
 export default function CreateAccountPage (): JSX.Element {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [type, setType] = useState<'' | 'student' | 'employer'>('')
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
 
@@ -13,7 +15,16 @@ export default function CreateAccountPage (): JSX.Element {
     e.preventDefault()
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => { navigate('/profile') })
+      .then(async ({ user }) => {
+        const userInfo = {
+          id: user.uid,
+          email: user.email,
+          type
+        }
+        await setDoc(doc(db, 'users', user.uid), userInfo)
+        return userInfo
+      })
+      .then(() => { navigate('/') })
       .catch(error => {
         console.error('An error occurred while creating an account: ', error)
         setErrorMessage(error.message)
@@ -64,6 +75,28 @@ export default function CreateAccountPage (): JSX.Element {
             "
             required
           />
+        </label>
+        <label className="block">
+          <span className="text-gray-700">Are you a student or an employer?</span>
+          <select
+            name="type"
+            value={type}
+            onChange={(e) => { setType(e.target.value as 'student' | 'employer') }}
+            className="
+              block
+              w-full
+              mt-1
+              rounded-md
+              border-gray-300
+              shadow-sm
+              focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50
+            "
+            required
+          >
+            <option value="">Choose an option</option>
+            <option value="student">Student</option>
+            <option value="employer">Employer</option>
+          </select>
         </label>
         <button className="block mt-2 px-3 py-2 text-white bg-sky-500 border-sky-300 rounded-md focus:border-sky-300 focus:ring focus:ring-sky-200 focus:ring-opacity-50">Create Account</button>
       </form>
