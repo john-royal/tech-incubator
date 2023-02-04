@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useState, type FormEventHandler } from 'react'
 import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { auth } from '../lib/firebase'
+import { auth } from '../../lib/firebase'
 
 export default function SignInPage (): JSX.Element {
   const [email, setEmail] = useState('')

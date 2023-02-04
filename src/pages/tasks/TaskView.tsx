@@ -1,8 +1,8 @@
 import { doc, getDoc } from 'firebase/firestore'
 import { Button, Col, Container, Image, Row } from 'react-bootstrap'
 import { useLoaderData, type LoaderFunction } from 'react-router-dom'
-import { db } from '../lib/firebase'
-import { type Task } from '../lib/types'
+import { db } from '../../lib/firebase'
+import { type Task } from '../../lib/types'
 
 export default function TaskView (): JSX.Element {
   const task = useLoaderData() as Task
@@ -42,7 +42,7 @@ export default function TaskView (): JSX.Element {
 }
 
 export const loadTask: LoaderFunction = async ({ params }) => {
-  const task = await getDoc(doc(db, 'tasks_v2', params.id as string))
+  const task = await getDoc(doc(db, 'tasks', params.id as string))
   if (task.exists()) {
     return task.data() as Task
   } else {

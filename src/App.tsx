@@ -1,15 +1,16 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { createBrowserRouter, Outlet, redirect, RouterProvider } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import { auth } from './lib/firebase'
 import { UserProvider } from './lib/user'
-import CreateAccountPage from './pages/CreateAccount'
+import CreateAccountPage from './pages/auth/CreateAccount'
+import SignInPage from './pages/auth/SignIn'
 import EmployerProfile, { loadEmployer } from './pages/EmployerProfile'
 import HomePage from './pages/HomePage/HomePage'
-import SignInPage from './pages/SignIn'
 import StudentProfile, { loadStudent } from './pages/StudentProfile'
-import TasksPage, { loadTasks } from './pages/TasksPage/TasksPage'
-import TaskView, { loadTask } from './pages/TaskView'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import EditTaskForm from './pages/tasks/EditTaskForm'
+import TasksPage, { loadTasks } from './pages/tasks/TasksPage'
+import TaskView, { loadTask } from './pages/tasks/TaskView'
 
 const HeaderLayout = (): JSX.Element => (
   <>
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         path: '/tasks',
         element: <TasksPage />,
         loader: loadTasks
+      },
+      {
+        path: '/task/new',
+        element: <EditTaskForm />
       },
       {
         path: '/task/:id',

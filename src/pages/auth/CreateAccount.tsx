@@ -3,7 +3,7 @@ import { doc, setDoc } from 'firebase/firestore'
 import { useState, type FormEventHandler } from 'react'
 import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { auth, db } from '../lib/firebase'
+import { auth, db } from '../../lib/firebase'
 
 export default function CreateAccountPage (): JSX.Element {
   const [email, setEmail] = useState('')

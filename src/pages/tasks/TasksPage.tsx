@@ -42,7 +42,7 @@ export default function TasksPage (): JSX.Element {
   )
 }
 
-export async function loadTasks (): Promise<DocumentData> {
+export async function loadTasks (): Promise<Task[]> {
   const tasks = await getDocs(collection(db, 'tasks'))
-  return tasks.docs.map((task) => task.data())
+  return tasks.docs.map((task) => task.data() as Task)
 }
