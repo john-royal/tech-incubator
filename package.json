@@ -11,14 +11,10 @@
     "lint:fix": "eslint . --fix --ext .ts,.tsx,.js,.jsx,.cjs"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@tailwindcss/forms": "^0.5.3",
-=======
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.7",
     "bootstrap": "^5.2.3",
->>>>>>> origin/cardtsks_newtsks
     "firebase": "^9.16.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",

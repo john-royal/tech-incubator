@@ -1,6 +1,4 @@
-import { useState, type PropsWithChildren } from 'react'
 import { Link } from 'react-router-dom'
-import { auth } from '../lib/firebase'
 import { useUser } from '../lib/user'
 
 export default function NavBar (): JSX.Element {
