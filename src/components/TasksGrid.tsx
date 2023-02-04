@@ -1,5 +1,6 @@
 import { Grid } from '@mui/material'
-import { Card, ListGroup } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import type { Task } from '../lib/types'
 
 export default function TasksGrid ({ tasks }: { tasks: Task[] }): JSX.Element {
@@ -8,15 +9,14 @@ export default function TasksGrid ({ tasks }: { tasks: Task[] }): JSX.Element {
       {tasks.map((task) => (
         <Grid item xs={3} key={task.id}>
           <Card style={{ width: '15rem' }}>
-            <Card.Img variant="top" src={task.imageURL} />
-            <Card.Body>
-              <Card.Title>{task.title}</Card.Title>
-              <Card.Text>{task.description}</Card.Text>
-            </Card.Body>
-            <ListGroup className="list-group-flush">
-              <ListGroup.Item>Company: {task.employer.name}</ListGroup.Item>
-              <ListGroup.Item>taskID: {task.id}</ListGroup.Item>
-            </ListGroup>
+            <Link to={`/task/${task.id}`} style={{ color: 'unset', textDecoration: 'none' }}>
+                <Card.Img variant="top" src={task.imageURL} alt={task.title} />
+                <Card.Body>
+                    <Card.Subtitle className="my-1 text-muted">{task.employer.name}</Card.Subtitle>
+                    <Card.Title>{task.title}</Card.Title>
+                    <Card.Text>{task.description}</Card.Text>
+                </Card.Body>
+            </Link>
           </Card>
         </Grid>
       ))
