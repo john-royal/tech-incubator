@@ -1,26 +1,40 @@
 
+import { doc, setDoc } from 'firebase/firestore'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { useState, type ChangeEvent } from 'react'
 import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap'
-import { useState, type FormEventHandler } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { auth, db } from '../lib/firebase'
+import { useNavigate, useParams } from 'react-router-dom'
+import { db, storage } from '../lib/firebase'
+import { type Student } from '../lib/types'
 
+async function submitForm ({ id, name, bio, year, major, image }: { id: string, name: string, bio: string, year: number, major: string, image: File }): Promise<void> {
+  await uploadBytes(ref(storage, `students/${id}`), image)
+  const imageURL = await getDownloadURL(ref(storage, `students/${id}`))
+  const student: Student = { id, name, bio, year, major, imageURL }
+  await setDoc(doc(db, `students/${id}`), student)
+}
 
-export default function StudentProfile (): JSX.Element {
+export default function StudentForm (): JSX.Element {
   const [name, setName] = useState('')
   const [bio, setBio] = useState('')
-  const [imageURL, setImageURL] = useState('')
+  const [image, setImage] = useState<File | null>(null)
   const [major, setMajor] = useState('')
-  const [year, setYear] = useState('')
+  const [year, setYear] = useState(2023)
   const [errorMessage, setErrorMessage] = useState('')
+  const { id } = useParams() as { id: string }
   const navigate = useNavigate()
 
-  const handleSubmit: FormEventHandler = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
 
-    const student = {
-      
+    if (name === '' || bio === '' || major === '' || image === null) {
+      setErrorMessage('Please enter all required fields.')
+      return
     }
 
+    submitForm({ id, name, bio, year, major, image })
+      .then(() => { navigate(`/student/${id}`) })
+      .catch((e: Error) => { setErrorMessage(e.message) })
   }
 
   return (
@@ -30,11 +44,23 @@ export default function StudentProfile (): JSX.Element {
           <h1 className="text-center mb-3">Tell Us More About Yourself</h1>
           {errorMessage !== '' && <Alert variant="danger">{errorMessage}</Alert>}
           <Form onSubmit={handleSubmit}>
-            
+
+            <Form.Group className="my-2">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+              type="text"
+              name="name"
+              autoComplete="full-name"
+              value={name}
+              onChange={(e) => { setName(e.target.value) }}
+              required
+              />
+            </Form.Group>
+
             <Form.Group className="my-2">
               <Form.Label>Major</Form.Label>
               <Form.Control
-              type="major"
+              type="text"
               name="major"
               autoComplete="major"
               value={major}
@@ -44,13 +70,13 @@ export default function StudentProfile (): JSX.Element {
             </Form.Group>
 
             <Form.Group className="my-2">
-              <Form.Label>Year</Form.Label>
+              <Form.Label>Graduation Year</Form.Label>
               <Form.Control
               type="year"
               name="year"
               autoComplete="year"
               value={year}
-              onChange={(e) => { setYear(e.target.value) }}
+              onChange={(e) => { setYear(Number(e.target.value)) }}
               required
               />
             </Form.Group>
@@ -58,7 +84,7 @@ export default function StudentProfile (): JSX.Element {
             <Form.Group className="my-2">
               <Form.Label>Bio</Form.Label>
               <Form.Control
-              type="bio"
+              type="text"
               name="bio"
               autoComplete="bio"
               value={bio}
@@ -67,7 +93,10 @@ export default function StudentProfile (): JSX.Element {
               />
             </Form.Group>
 
-            {/* Add image uploader */}
+            <Form.Group controlId="image">
+              <Form.Label>Image</Form.Label>
+              <Form.Control type="file" onChange={(e: ChangeEvent<HTMLInputElement>) => { setImage((e.target.files as FileList)[0]) }} />
+            </Form.Group>
 
             <Form.Group className="my-3">
               <Button variant="primary" type="submit">Update Profile</Button>
