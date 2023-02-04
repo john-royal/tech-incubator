@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { createBrowserRouter, Outlet, redirect, RouterProvider } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import { auth } from './lib/firebase'
@@ -9,6 +8,8 @@ import HomePage from './pages/HomePage/HomePage'
 import SignInPage from './pages/SignIn'
 import StudentProfile, { loadStudent } from './pages/StudentProfile'
 import TasksPage, { loadTasks } from './pages/TasksPage/TasksPage'
+import TaskView, { loadTask } from './pages/TaskView'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const HeaderLayout = (): JSX.Element => (
   <>
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
         path: '/tasks',
         element: <TasksPage />,
         loader: loadTasks
+      },
+      {
+        path: '/task/:id',
+        element: <TaskView />,
+        loader: loadTask
       },
       {
         path: '/employer/:id',
