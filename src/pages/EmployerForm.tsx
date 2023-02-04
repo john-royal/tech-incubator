@@ -1,21 +1,20 @@
-import { type ChangeEvent, useState } from 'react'
-import { Form, Button, Container, Modal, Row, Col } from 'react-bootstrap'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { doc, setDoc } from 'firebase/firestore'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { useState, type ChangeEvent } from 'react'
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
+import { useNavigate, useParams } from 'react-router-dom'
 import { db, storage } from '../lib/firebase'
-import { v4 as uuidv4 } from 'uuid'
-import { useNavigate } from 'react-router-dom'
 import { type Employer } from '../lib/types'
 
-async function submitForm (name: string, description: string, logo: File): Promise<void> {
-  const id = `employers/${uuidv4()}`
-  await uploadBytes(ref(storage, id), logo)
-  const imageURL = await getDownloadURL(ref(storage, id))
+async function submitForm (id: string, name: string, description: string, logo: File): Promise<void> {
+  await uploadBytes(ref(storage, `employers/${id}`), logo)
+  const imageURL = await getDownloadURL(ref(storage, `employers/${id}`))
   const employer1: Employer = { id, name, description, imageURL }
-  await setDoc(doc(db, id), employer1)
+  await setDoc(doc(db, `employers/${id}`), employer1)
 }
 
 function EmployerForm (): JSX.Element {
+  const { id } = useParams() as { id: string }
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [description, setDesc] = useState('')
@@ -30,8 +29,8 @@ function EmployerForm (): JSX.Element {
       return
     }
 
-    submitForm(name, description, logo)
-      .then(() => { navigate('/') })
+    submitForm(id, name, description, logo)
+      .then(() => { navigate(`/employer/${id}`) })
       .catch((e: Error) => { setErrorMessage(e.message) })
   }
 
@@ -53,7 +52,7 @@ function EmployerForm (): JSX.Element {
             <Form.Group controlId="desc" className="mb-3">
                 <Form.Label>Description</Form.Label>
                 <Form.Control
-                type="email"
+                type="text"
                 value={description}
                 onChange={(e) => { setDesc(e.target.value) }}
                 required

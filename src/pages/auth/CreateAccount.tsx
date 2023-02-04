@@ -25,7 +25,18 @@ export default function CreateAccountPage (): JSX.Element {
         await setDoc(doc(db, 'users', user.uid), userInfo)
         return userInfo
       })
-      .then(() => { navigate('/') })
+      .then(user => {
+        switch (type) {
+          case 'employer': {
+            navigate(`/employer/${user.id}/edit`)
+            break
+          }
+          case 'student': {
+            navigate(`/student/${user.id}/edit`)
+            break
+          }
+        }
+      })
       .catch(error => {
         console.error('An error occurred while creating an account: ', error)
         setErrorMessage(error.message)

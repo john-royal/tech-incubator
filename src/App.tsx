@@ -5,6 +5,7 @@ import { auth } from './lib/firebase'
 import { UserProvider } from './lib/user'
 import CreateAccountPage from './pages/auth/CreateAccount'
 import SignInPage from './pages/auth/SignIn'
+import EmployerForm from './pages/EmployerForm'
 import EmployerProfile, { loadEmployer } from './pages/EmployerProfile'
 import HomePage from './pages/HomePage'
 import StudentProfile, { loadStudent } from './pages/StudentProfile'
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
         path: '/employer/:id',
         element: <EmployerProfile />,
         loader: loadEmployer
+      },
+      {
+        path: '/employer/:id/edit',
+        element: <EmployerForm />
       },
       {
         path: '/student/:id',
