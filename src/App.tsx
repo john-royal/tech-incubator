@@ -5,6 +5,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage'
 import SignInPage from './pages/SignIn'
 import TasksPage, { loadTasks } from './pages/TasksPage/TasksPage'
 import NavBar from './components/NavBar'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const HeaderLayout = (): JSX.Element => (
   <>

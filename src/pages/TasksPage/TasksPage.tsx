@@ -1,5 +1,6 @@
 import { collection, getDocs } from 'firebase/firestore'
-import Table from 'react-bootstrap/Table'
+import { Card, ListGroup } from 'react-bootstrap'
+import { Grid } from '@mui/material'
 import { db } from '../../lib/firebase'
 import { useLoaderData } from 'react-router-dom'
 
@@ -18,27 +19,24 @@ export default function TasksPage (): JSX.Element {
             <h1 className="display-4 text-primary mx-auto d-flex justify-content-center col-md-7">Tasks</h1>
             <br />
             <h3 className="display-4 text-primary mx-auto d-flex justify-content-center col-md-7">Open Roles</h3>
-            <Table align="center" striped>
-                <thead>
-                    <tr>
-                    <th>taskID</th>
-                    <th>Company</th>
-                    <th>Subject</th>
-                    <th>Description</th>
-                    </tr>
-                </thead>
+              <Grid container rowSpacing={3} columnSpacing={{ xs: 3, sm: 3, md: 3 }}>
                 {tasks.map((task) => (
-                    <tbody key={task.key}>
-                        <tr>
-                        <td>{task.key}</td>
-                        <td>{task.Company}</td>
-                        <td>{task.Subject}</td>
-                        <td>{task.Description}</td>
-                        </tr>
-                    </tbody>
+                  <Grid item xs={3} key={task.key}>
+                    <Card style={{ width: '15rem' }}>
+                      <Card.Img variant="top" src="https://fakeimg.pl/100x100/?text=CMPNY LOGO" />
+                      <Card.Body>
+                        <Card.Title>{task.Subject}</Card.Title>
+                        <Card.Text>{task.Description}</Card.Text>
+                      </Card.Body>
+                      <ListGroup className="list-group-flush">
+                        <ListGroup.Item>Company: {task.Company}</ListGroup.Item>
+                        <ListGroup.Item>taskID: {task.key}</ListGroup.Item>
+                      </ListGroup>
+                    </Card>
+                  </Grid>
                 ))
                 }
-            </Table>
+              </Grid>
             <br />
             <p className="mx-auto d-flex h5 col-md-9 text-center text-secondary" style={{ lineHeight: '2em' }}>
                 Companies are seeking to fill tasks! If you are a student that can meet a given tasks

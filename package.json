@@ -11,6 +11,10 @@
     "lint:fix": "eslint . --fix --ext .ts,.tsx,.js,.jsx,.cjs"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.7",
+    "bootstrap": "^5.2.3",
     "firebase": "^9.16.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
