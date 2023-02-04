@@ -8,7 +8,7 @@ import SignInPage from './pages/auth/SignIn'
 import EmployerProfile, { loadEmployer } from './pages/EmployerProfile'
 import HomePage from './pages/HomePage'
 import StudentProfile, { loadStudent } from './pages/StudentProfile'
-import EditTaskForm from './pages/tasks/EditTaskForm'
+import EditTaskForm, { loadEmployer as loadEmployerForTask } from './pages/tasks/EditTaskForm'
 import TasksPage, { loadTasks } from './pages/tasks/TasksPage'
 import TaskView, { loadTask } from './pages/tasks/TaskView'
 
@@ -34,7 +34,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/task/new',
-        element: <EditTaskForm />
+        element: <EditTaskForm />,
+        loader: loadEmployerForTask
       },
       {
         path: '/task/:id',

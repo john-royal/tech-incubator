@@ -1,12 +1,13 @@
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import React, { useState, type ChangeEvent, type FormEventHandler } from 'react'
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
-import { db, storage } from '../../lib/firebase'
-import { type Task } from '../../lib/types'
+import { type LoaderFunction, useNavigate, useLoaderData } from 'react-router-dom'
+import { auth, db, storage } from '../../lib/firebase'
+import { type Employer, type Task } from '../../lib/types'
 
 export default function EditTaskForm (): JSX.Element {
+  const employer = useLoaderData() as Employer
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState<File | null>(null)
@@ -24,7 +25,7 @@ export default function EditTaskForm (): JSX.Element {
       title,
       description,
       imageURL,
-      employer: { id: '', name: '', description: '', imageURL: '' },
+      employer,
       assignee: null,
       submissionURL: null,
       dueDate: null
@@ -86,4 +87,16 @@ export default function EditTaskForm (): JSX.Element {
         </Row>
     </Container>
   )
+}
+
+export const loadEmployer: LoaderFunction = async () => {
+  const id = auth.currentUser?.uid
+  if (id == null) {
+    throw new Error('You must sign in first.')
+  }
+  const employer = await getDoc(doc(db, 'employers', id))
+  if (!employer.exists()) {
+    throw new Error('You must be signed in as an employer to create a task.')
+  }
+  return employer.data() as Employer
 }
