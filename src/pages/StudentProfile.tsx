@@ -40,7 +40,7 @@ export default function StudentProfile (): JSX.Element {
 export const loadStudent = async ({ params }: LoaderFunctionArgs): Promise<LoaderData> => {
   const id = params.id as string
   const [student, tasks] = await Promise.all([
-    getDoc(doc(db, 'employers', id)),
+    getDoc(doc(db, 'students', id)),
     getDocs(query(collection(db, 'tasks'), where('assignee.id', '==', id)))
   ])
   if (student.exists()) {
