@@ -1,11 +1,17 @@
-import { doc, getDoc } from 'firebase/firestore'
 import { Button, Col, Container, Image, Row } from 'react-bootstrap'
-import { redirect, useLoaderData, type LoaderFunction } from 'react-router-dom'
 import { auth, db } from '../lib/firebase'
-import { type Student } from '../lib/types'
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { redirect, useLoaderData, type LoaderFunctionArgs, type LoaderFunction } from 'react-router-dom'
+import TasksGrid from '../components/TasksGrid'
+import { type Student, type Task } from '../lib/types'
+
+interface LoaderData {
+  student: Student
+  tasks: Task[]
+}
 
 export default function StudentProfile (): JSX.Element {
-  const student = useLoaderData() as Student
+  const { student, tasks } = useLoaderData() as LoaderData
 
   return (
     <Container>
@@ -19,18 +25,30 @@ export default function StudentProfile (): JSX.Element {
           <p>{student.bio}</p>
           <p>Major: {student.major}</p>
           <p>Year: {student.year}</p>
+          
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <TasksGrid tasks={tasks} />
         </Col>
       </Row>
     </Container>
   )
 }
 
-export const loadStudent: LoaderFunction = async ({ params }) => {
-  const id = typeof params.id === 'string' ? params.id : auth.currentUser?.uid as string
-  const student = await getDoc(doc(db, 'students', id))
+export const loadStudent = async ({ params }: LoaderFunctionArgs): Promise<LoaderData> => {
+  const id = params.id as string
+  const [student, tasks] = await Promise.all([
+    getDoc(doc(db, 'employers', id)),
+    getDocs(query(collection(db, 'tasks'), where('assignee.id', '==', id)))
+  ])
   if (student.exists()) {
-    return student.data() as Student
+    return {
+      student: student.data() as Student,
+      tasks: tasks.docs.map(doc => doc.data()) as Task[]
+    }
   } else {
-    return redirect('/404')
+    throw new Error('Employer not found')
   }
 }
