@@ -11,7 +11,7 @@ import HomePage from './pages/HomePage'
 import StudentForm from './pages/StudentForm'
 import StudentProfile, { loadStudent } from './pages/StudentProfile'
 import EditTaskForm, { loadEmployer as loadEmployerForTask } from './pages/tasks/EditTaskForm'
-import TasksPage, { loadTasks } from './pages/tasks/TasksPage'
+import TasksGridView, { loadTasks } from './pages/tasks/TasksGridView'
 import TaskView, { loadTask } from './pages/tasks/TaskView'
 
 const HeaderLayout = (): JSX.Element => (
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/tasks',
-        element: <TasksPage />,
+        element: <TasksGridView />,
         loader: loadTasks
       },
       {

@@ -1,0 +1,9 @@
+.task-card {
+    width: 240px;
+}
+
+.task-card .card-img-top {
+    height: 240px;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
