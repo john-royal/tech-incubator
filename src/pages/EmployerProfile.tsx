@@ -14,9 +14,9 @@ export default function EmployerProfile (): JSX.Element {
 
   return (
     <>
-        <img src={employer.imageURL} alt={employer.name} width="250" height="250"/>
-        <h1>{employer.name}</h1>
-        <p>{employer.description}</p>
+        <p align="center"><img src={employer.imageURL} alt={employer.name} width="250" height="250"/></p>
+        <h1 className="display-4 text-primary mx-auto d-flex justify-content-center col-md-7">{employer.name}</h1>
+        <p className="col-md-3 rounded mx-auto d-block">{employer.description}</p>
         <TasksGrid tasks={tasks} />
     </>
   )

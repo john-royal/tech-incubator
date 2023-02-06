@@ -14,11 +14,11 @@ export default function StudentProfile (): JSX.Element {
 
   return (
     <>
-        <img src={student.imageURL} alt={student.name} width="250" height="250"/>
-        <h1>{student.name}</h1>
-        <p>{student.bio}</p>
-        <p>Major: {student.major}</p>
-        <p>Year: {student.year}</p>
+        <p align="center"><img src={student.imageURL} alt={student.name} width="250" height="250"/></p>
+        <h1 className="display-4 text-primary mx-auto d-flex justify-content-center col-md-7">{student.name}</h1>
+        <p className="col-md-3 rounded mx-auto d-block">{student.bio}</p>
+        <p className="col-md-3 rounded mx-auto d-block">Major: {student.major}</p>
+        <p className="col-md-3 rounded mx-auto d-block">Year: {student.year}</p>
         <TasksGrid tasks={tasks} />
     </>
   )

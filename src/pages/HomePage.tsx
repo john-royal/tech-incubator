@@ -7,10 +7,10 @@ export default function HomePage (): JSX.Element {
             <h1 className="display-4 text-primary mx-auto d-flex justify-content-center col-md-7">Home</h1>
             <br />
             <div className="col-md-3 rounded mx-auto d-block">
-                <Card.Img variant="top" src="https://fakeimg.pl/350x275/?text=RELEVANT IMAGE"/>
+                <Card.Img variant="top" src="public/readme/collaboration.jpg"/>
             </div>
             <br />
-            <p className="mx-auto d-flex h5 col-md-9 text-center text-secondary" style={{ lineHeight: '2em' }}>
+            <p className="mx-auto d-flex h6 col-md-2 text-center text-secondary" style={{ lineHeight: '2em' }}>
                 Welcome to the tech incubator!
             </p>
             <br />
